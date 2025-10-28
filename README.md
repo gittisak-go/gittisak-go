@@ -1,184 +1,233 @@
-<div align="center">
-  <p>
-    <a align="center" href="https://developers.moralis.com/" target="_blank">
-      <img src="https://raw.githubusercontent.com/MoralisWeb3/moralis-analytics-js/main/assets/moralis-logo.svg" alt="Moralis Analytics" height=200/>
-    </a>
-    <h1 align="center">Moralis MCP Server</h1>
-  </p>
-  <p>
-    A TypeScript-based MCP server that implements a wrapper to the Moralis rest API.
-  </p>
-  <br/>
-</div>
+# Gittisak-Go: Abacus.AI ChatLLM Go Client
 
-![smithery badge](https://smithery.ai/badge/@MoralisWeb3/moralis-mcp-server)
+A Go client library for the [Abacus.AI ChatLLM](https://abacus.ai/chat_llm-ent) enterprise API. This library provides a simple and idiomatic Go interface for interacting with Abacus.AI's ChatLLM service, which offers access to multiple state-of-the-art LLMs including GPT-4o, Claude 3.5 Sonnet, and Gemini 1.5.
 
-## 🧠 Overview
-The **Moralis MCP Server** is a local or cloud-deployable engine that connects natural language prompts to real blockchain insights — allowing AI models to query wallet activity, token metrics, dapp usage, and more without custom code or SQL.
+## Features
 
-Built on top of the [Model Context Protocol](https://github.com/modelcontextprotocol/spec), this server makes it easy for LLMs to talk to Moralis APIs in a consistent, explainable, and extensible way.
+- 🚀 Simple and intuitive API
+- 🔐 Built-in authentication handling
+- 🎯 Type-safe request and response structures
+- ⚡ Context support for cancellation and timeouts
+- 🧪 Comprehensive test coverage
+- 📝 Full documentation and examples
 
-- 🔗 Fully pluggable: swap LLMs, customize retrieval logic, or extend with your own tools
-- 🧱 Works with OpenAI, Claude, and open-source models
-- 🧠 Powers agents, devtools, bots, dashboards, and beyond
+## Installation
 
-## ⚙️ Common Use Cases
-
-- 🤖 AI agents & assistants: “What’s this wallet’s trading history?”
-- 📈 Devtools: on-chain QA, testing, CLI integrations
-- 📊 Dashboards: natural language to charts/data
-- 📉 Monitoring: alerting & summarization for tokens/dapps
-- 🧠 Trading bots: LLM-driven strategies with real blockchain grounding
-
-## 🔐 Getting an API Key
-
-To use this MCP server with Moralis APIs, you'll need an API key:
-
-1. Go to [Moralis](https://admin.moralis.com) developer portal
-2. Sign up and log in
-3. Navigate to your [API Keys page](https://admin.moralis.com/api-keys) from the main menu
-4. Copy your key and configure it in your config file (see next section), or set it in your environment:
 ```bash
-export MORALIS_API_KEY=<your_api_key>
+go get github.com/gittisak-go/gittisak-go
 ```
-> ⚠️ Note: Some features and endpoints require a Moralis paid plan. For full access and production-grade performance, we recommend signing up for a paid tier.
 
-## 🚀 Usage with a Client
+## Quick Start
 
-To connect the MCP server to a compatible client (e.g. Claude Desktop, OpenAI-compatible agents, VS Code extensions, etc.), configure the client to launch the server as a subprocess.
+### Prerequisites
 
-Most clients support a simple config file - for example, you might create a file like mcp.json in the client’s configuration directory with the following:
+You'll need an Abacus.AI API key. To get one:
 
-```json
-{
-  "mcpServers": {
-    "serverName": {
-      "command": "npx @moralisweb3/api-mcp-server",
-      "args": [],
-      "env": {
-        "MORALIS_API_KEY": "<YOUR_API_KEY>"
-      }
+1. Visit [Abacus.AI](https://admin.abacus.ai)
+2. Sign up and log in
+3. Navigate to your API Keys page
+4. Copy your API key
+
+### Basic Usage
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/gittisak-go/gittisak-go/pkg/chatllm"
+)
+
+func main() {
+    // Create a new client
+    client, err := chatllm.NewClientWithAPIKey("your-api-key")
+    if err != nil {
+        log.Fatal(err)
     }
-  }
+
+    // Create a chat completion request
+    req := chatllm.ChatCompletionRequest{
+        Model: "gpt-4o",
+        Messages: []chatllm.Message{
+            {
+                Role:    "system",
+                Content: "You are a helpful assistant.",
+            },
+            {
+                Role:    "user",
+                Content: "What is the capital of France?",
+            },
+        },
+    }
+
+    // Send the request
+    resp, err := client.CreateChatCompletion(context.Background(), req)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // Print the response
+    fmt.Println(resp.Choices[0].Message.Content)
 }
 ```
 
-This setup can be adapted for any client that supports MCP servers. Replace the example values with those specific to your use case.
+## Configuration
 
-### Installing via Smithery
-
-To install Moralis API Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@MoralisWeb3/moralis-mcp-server):
+### Using Environment Variables
 
 ```bash
-npx -y @smithery/cli install @MoralisWeb3/moralis-mcp-server --client claude
+export ABACUS_API_KEY="your-api-key"
 ```
 
+```go
+apiKey := os.Getenv("ABACUS_API_KEY")
+client, err := chatllm.NewClientWithAPIKey(apiKey)
+```
 
-## 🖥️ Using as a Server
+### Custom Configuration
 
-The server accepts an optional `--transport` argument to specify the transport type. The available transport types are:
+```go
+client, err := chatllm.NewClient(chatllm.Config{
+    APIKey:  "your-api-key",
+    BaseURL: "https://api.abacus.ai",
+    Timeout: 60 * time.Second,
+})
+```
 
-- `stdio`: Communicates over standard input/output (default).
-- `web`: Starts a HTTP server for communication.
-- `streamable-http`: Starts an HTTP server with streamable endpoints.
+## API Reference
 
-### Examples
+### Client Creation
 
-1. **Using the default `stdio` transport**:
-  ```bash
-  moralis-api-mcp --transport stdio
-  ```
+#### `NewClient(config Config) (*Client, error)`
 
-2. **Using the `web` transport**:
-  ```bash
-  moralis-api-mcp --transport web
-  ```
+Creates a new ChatLLM client with full configuration options.
 
-  This will start a HTTP server. You can send requests to the server using tools like `curl` or Postman.
+```go
+client, err := chatllm.NewClient(chatllm.Config{
+    APIKey:  "your-api-key",
+    BaseURL: "https://api.abacus.ai", // optional
+    Timeout: 30 * time.Second,        // optional
+})
+```
 
-3. **Using the `streamable-http` transport**:
-  ```bash
-  moralis-api-mcp --transport streamable-http
-  ```
+#### `NewClientWithAPIKey(apiKey string) (*Client, error)`
 
-  This will start an HTTP server. You can send requests to the server using tools like `curl` or Postman.
+Creates a new ChatLLM client with just an API key, using default configuration.
 
-### Notes
-- Ensure that the required environment variables (e.g., `MORALIS_API_KEY`) are set before starting the server.
-- For custom configurations, you can pass additional arguments or environment variables as needed.
-- Refer to the documentation for more details on each transport type.
+```go
+client, err := chatllm.NewClientWithAPIKey("your-api-key")
+```
 
-## 🛠 Development
+### Chat Completion
 
-Install dependencies:
+#### `CreateChatCompletion(ctx context.Context, req ChatCompletionRequest) (*ChatCompletionResponse, error)`
+
+Sends a chat completion request to the ChatLLM API.
+
+**Request Parameters:**
+
+- `Model` (string, optional): The model to use (e.g., "gpt-4o", "claude-3.5-sonnet")
+- `Messages` ([]Message, required): Array of messages in the conversation
+- `Temperature` (*float64, optional): Sampling temperature (0-2)
+- `MaxTokens` (*int, optional): Maximum tokens to generate
+- `Stream` (bool, optional): Enable streaming responses
+
+**Message Structure:**
+
+- `Role` (string): "user", "assistant", or "system"
+- `Content` (string): The message content
+
+**Example:**
+
+```go
+req := chatllm.ChatCompletionRequest{
+    Model: "gpt-4o",
+    Messages: []chatllm.Message{
+        {
+            Role:    "system",
+            Content: "You are a helpful assistant.",
+        },
+        {
+            Role:    "user",
+            Content: "Explain quantum computing in simple terms.",
+        },
+    },
+}
+
+resp, err := client.CreateChatCompletion(context.Background(), req)
+```
+
+## Examples
+
+See the [examples](./examples) directory for complete working examples:
+
+- [Basic Example](./examples/basic/main.go) - Simple chat completion
+
+To run an example:
+
 ```bash
-npm install
+export ABACUS_API_KEY="your-api-key"
+go run examples/basic/main.go
 ```
 
-Build the server:
-```bash
-npm run build
-```
+## Testing
 
-For development with auto-rebuild:
-```bash
-npm run watch
-```
-
-### 🐞 Debugging
-
-Since MCP servers communicate over stdio, debugging can be challenging. We recommend using the [MCP Inspector](https://github.com/modelcontextprotocol/inspector), which is available as a package script:
+Run the test suite:
 
 ```bash
-npm run inspector
+go test ./...
 ```
 
-The Inspector will provide a URL to access debugging tools in your browser.
+Run tests with coverage:
 
-
-## 💬 Example Prompts
-
-Here are some example prompts you can use with your AI agent through the MCP server:
-
-```
-- What’s the current price of PEPE and Ethereum?
-
-- What is the current trading sentiment for TOSHI on Base — bullish or bearish?
-
-- Show me the NFTs owned by `vitalik.eth` on Base.
-
-- What tokens does wallet `0xab71...4321` hold?
-
-- When was wallet 0xabc...123 first and last seen active on Ethereum, Base, and Polygon?
-
-- Show me the complete transaction history for 0xabc...123 across Ethereum, Base, and BNB Chain.
-
-- What is the current net worth in USD of wallet 0xabc...123?
-
-- Find wallet addresses that are likely associated with Coinbase.
-
-- Analyze the current holder distribution of SPX6900 — include whales, small holders, and recent growth trends.
-
-- Show me PEPE’s daily OHLC data for the past 30 days and provide a summary of the trend — is it bullish or bearish?
+```bash
+go test -cover ./...
 ```
 
-These prompts are parsed and mapped to structured Moralis API calls using the MCP method registry.
+## Supported Models
 
-> 💡 You can also build custom prompts based on any supported method.
+The library supports all models available through Abacus.AI ChatLLM, including:
 
-
-## 📚 API Reference
-
-The Moralis MCP Server wraps and translates prompts into Moralis REST API calls. You can explore the underlying API surface here:
-
-🔗 **[Moralis Swagger Docs (v2.2)](https://deep-index.moralis.io/api-docs-2.2/)**
-
-This documentation covers endpoints for:
-
-- Token pricing
-- Wallet activity
-- NFT metadata and ownership
-- Transfers and transactions
+- GPT-4o
+- GPT-4 Turbo
+- Claude 3.5 Sonnet
+- Claude 3 Opus
+- Gemini 1.5 Pro
 - And more
 
+Check the [Abacus.AI documentation](https://abacus.ai/chat_llm-ent) for the latest list of available models.
 
+## Error Handling
+
+The library returns descriptive errors that can be checked and handled:
+
+```go
+resp, err := client.CreateChatCompletion(ctx, req)
+if err != nil {
+    // Handle error
+    log.Printf("Error creating chat completion: %v", err)
+    return
+}
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Built for the [Abacus.AI ChatLLM](https://abacus.ai/chat_llm-ent) API
+- Inspired by the OpenAI Go client library design patterns
+
+## Support
+
+For issues and questions:
+- Open an issue on GitHub
+- Check the [Abacus.AI documentation](https://abacus.ai/chat_llm-ent)
