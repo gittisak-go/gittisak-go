@@ -1,4 +1,4 @@
-## Hi there 👋
+[logo](https://github.com/gittisak-go/gittisak-go/commit/c834d7b7934ee2ef4a9608da9ad5a6d7c143afdc)
 
 # Model Context Protocol (MCP)
 
