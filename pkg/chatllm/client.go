@@ -19,16 +19,20 @@ const (
 
 // Client represents an Abacus.AI ChatLLM client
 type Client struct {
-	apiKey     string
-	baseURL    string
-	httpClient *http.Client
+	apiKey          string
+	deploymentToken string
+	deploymentID    string
+	baseURL         string
+	httpClient      *http.Client
 }
 
 // Config holds the configuration for creating a new Client
 type Config struct {
-	APIKey  string
-	BaseURL string
-	Timeout time.Duration
+	APIKey          string
+	DeploymentToken string
+	DeploymentID    string
+	BaseURL         string
+	Timeout         time.Duration
 }
 
 // NewClient creates a new ChatLLM client with the given configuration
@@ -48,8 +52,10 @@ func NewClient(config Config) (*Client, error) {
 	}
 
 	return &Client{
-		apiKey:  config.APIKey,
-		baseURL: baseURL,
+		apiKey:          config.APIKey,
+		deploymentToken: config.DeploymentToken,
+		deploymentID:    config.DeploymentID,
+		baseURL:         baseURL,
 		httpClient: &http.Client{
 			Timeout: timeout,
 		},
@@ -81,7 +87,7 @@ func (c *Client) doRequest(ctx context.Context, method, path string, body interf
 	}
 
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+c.apiKey)
+	req.Header.Set("apiKey", c.apiKey)
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {

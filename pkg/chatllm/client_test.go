@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"time"
 )
 
 func TestNewClient(t *testing.T) {
@@ -18,22 +17,28 @@ func TestNewClient(t *testing.T) {
 		{
 			name: "valid config with API key",
 			config: Config{
-				APIKey: "test-api-key",
+				APIKey:          "test-api-key",
+				DeploymentToken: "test-token",
+				DeploymentID:    "test-id",
 			},
 			wantErr: false,
 		},
 		{
 			name: "valid config with custom base URL",
 			config: Config{
-				APIKey:  "test-api-key",
-				BaseURL: "https://custom.api.com",
+				APIKey:          "test-api-key",
+				DeploymentToken: "test-token",
+				DeploymentID:    "test-id",
+				BaseURL:         "https://custom.api.com",
 			},
 			wantErr: false,
 		},
 		{
 			name: "missing API key",
 			config: Config{
-				BaseURL: "https://api.abacus.ai",
+				DeploymentToken: "test-token",
+				DeploymentID:    "test-id",
+				BaseURL:         "https://api.abacus.ai",
 			},
 			wantErr: true,
 		},
@@ -52,6 +57,12 @@ func TestNewClient(t *testing.T) {
 				}
 				if client.apiKey != tt.config.APIKey {
 					t.Errorf("NewClient() apiKey = %v, want %v", client.apiKey, tt.config.APIKey)
+				}
+				if client.deploymentToken != tt.config.DeploymentToken {
+					t.Errorf("NewClient() deploymentToken = %v, want %v", client.deploymentToken, tt.config.DeploymentToken)
+				}
+				if client.deploymentID != tt.config.DeploymentID {
+					t.Errorf("NewClient() deploymentID = %v, want %v", client.deploymentID, tt.config.DeploymentID)
 				}
 				expectedBaseURL := tt.config.BaseURL
 				if expectedBaseURL == "" {
@@ -82,26 +93,20 @@ func TestNewClientWithAPIKey(t *testing.T) {
 	}
 }
 
-func TestCreateChatCompletion(t *testing.T) {
-	mockResponse := ChatCompletionResponse{
-		ID:      "chatcmpl-123",
-		Object:  "chat.completion",
-		Created: time.Now().Unix(),
-		Model:   "gpt-4o",
-		Choices: []Choice{
+func TestGetChatResponse(t *testing.T) {
+	mockResponse := ChatResponse{
+		DeploymentConversationID: "conv-123",
+		Messages: []ResponseMessage{
 			{
-				Index: 0,
-				Message: Message{
-					Role:    "assistant",
-					Content: "The capital of France is Paris.",
-				},
-				FinishReason: "stop",
+				IsUser:    true,
+				Text:      "What is the capital of France?",
+				Timestamp: "2025-10-31T10:00:00Z",
 			},
-		},
-		Usage: Usage{
-			PromptTokens:     20,
-			CompletionTokens: 10,
-			TotalTokens:      30,
+			{
+				IsUser:    false,
+				Text:      "The capital of France is Paris.",
+				Timestamp: "2025-10-31T10:00:01Z",
+			},
 		},
 	}
 
@@ -109,13 +114,13 @@ func TestCreateChatCompletion(t *testing.T) {
 		if r.Method != "POST" {
 			t.Errorf("Expected POST request, got %s", r.Method)
 		}
-		if r.URL.Path != "/v1/chat/completions" {
-			t.Errorf("Expected path /v1/chat/completions, got %s", r.URL.Path)
+		if r.URL.Path != "/api/v0/getChatResponse" {
+			t.Errorf("Expected path /api/v0/getChatResponse, got %s", r.URL.Path)
 		}
 
-		authHeader := r.Header.Get("Authorization")
-		if authHeader != "Bearer test-api-key" {
-			t.Errorf("Expected Authorization header 'Bearer test-api-key', got '%s'", authHeader)
+		apiKeyHeader := r.Header.Get("apiKey")
+		if apiKeyHeader != "test-api-key" {
+			t.Errorf("Expected apiKey header 'test-api-key', got '%s'", apiKeyHeader)
 		}
 
 		w.Header().Set("Content-Type", "application/json")
@@ -124,55 +129,110 @@ func TestCreateChatCompletion(t *testing.T) {
 	defer server.Close()
 
 	client, err := NewClient(Config{
-		APIKey:  "test-api-key",
-		BaseURL: server.URL,
+		APIKey:          "test-api-key",
+		DeploymentToken: "test-token",
+		DeploymentID:    "test-deployment",
+		BaseURL:         server.URL,
 	})
 	if err != nil {
 		t.Fatalf("Failed to create client: %v", err)
 	}
 
-	req := ChatCompletionRequest{
-		Model: "gpt-4o",
-		Messages: []Message{
-			{
-				Role:    "user",
-				Content: "What is the capital of France?",
-			},
+	messages := []ChatMessage{
+		{
+			IsUser: true,
+			Text:   "What is the capital of France?",
 		},
 	}
 
-	resp, err := client.CreateChatCompletion(context.Background(), req)
+	resp, err := client.GetChatResponse(context.Background(), messages)
 	if err != nil {
-		t.Fatalf("CreateChatCompletion() error = %v", err)
+		t.Fatalf("GetChatResponse() error = %v", err)
 	}
 
-	if resp.ID != mockResponse.ID {
-		t.Errorf("CreateChatCompletion() ID = %v, want %v", resp.ID, mockResponse.ID)
+	if resp.DeploymentConversationID != mockResponse.DeploymentConversationID {
+		t.Errorf("GetChatResponse() DeploymentConversationID = %v, want %v", resp.DeploymentConversationID, mockResponse.DeploymentConversationID)
 	}
-	if resp.Model != mockResponse.Model {
-		t.Errorf("CreateChatCompletion() Model = %v, want %v", resp.Model, mockResponse.Model)
-	}
-	if len(resp.Choices) != 1 {
-		t.Errorf("CreateChatCompletion() Choices length = %v, want 1", len(resp.Choices))
-	}
-	if resp.Choices[0].Message.Content != mockResponse.Choices[0].Message.Content {
-		t.Errorf("CreateChatCompletion() Content = %v, want %v", resp.Choices[0].Message.Content, mockResponse.Choices[0].Message.Content)
+	if len(resp.Messages) != len(mockResponse.Messages) {
+		t.Errorf("GetChatResponse() Messages length = %v, want %v", len(resp.Messages), len(mockResponse.Messages))
 	}
 }
 
-func TestCreateChatCompletionEmptyMessages(t *testing.T) {
-	client, err := NewClientWithAPIKey("test-api-key")
+func TestGetChatResponseEmptyMessages(t *testing.T) {
+	client, err := NewClient(Config{
+		APIKey:          "test-api-key",
+		DeploymentToken: "test-token",
+		DeploymentID:    "test-deployment",
+	})
 	if err != nil {
 		t.Fatalf("Failed to create client: %v", err)
 	}
 
-	req := ChatCompletionRequest{
-		Model:    "gpt-4o",
-		Messages: []Message{},
+	messages := []ChatMessage{}
+
+	_, err = client.GetChatResponse(context.Background(), messages)
+	if err == nil {
+		t.Error("GetChatResponse() expected error for empty messages, got nil")
+	}
+}
+
+func TestChatOptions(t *testing.T) {
+	req := ChatRequest{
+		Messages: []ChatMessage{{IsUser: true, Text: "Hello"}},
 	}
 
-	_, err = client.CreateChatCompletion(context.Background(), req)
-	if err == nil {
-		t.Error("CreateChatCompletion() expected error for empty messages, got nil")
+	WithLLMName("gpt-4")(&req)
+	if req.LLMName != "gpt-4" {
+		t.Errorf("WithLLMName() did not set LLMName correctly")
+	}
+
+	temp := 0.7
+	WithTemperature(temp)(&req)
+	if req.Temperature == nil || *req.Temperature != temp {
+		t.Errorf("WithTemperature() did not set Temperature correctly")
+	}
+
+	WithSystemMessage("You are helpful")(&req)
+	if req.SystemMessage != "You are helpful" {
+		t.Errorf("WithSystemMessage() did not set SystemMessage correctly")
+	}
+
+	tokens := 100
+	WithNumCompletionTokens(tokens)(&req)
+	if req.NumCompletionTokens == nil || *req.NumCompletionTokens != tokens {
+		t.Errorf("WithNumCompletionTokens() did not set NumCompletionTokens correctly")
+	}
+}
+
+func TestResponseMessageGetTextContent(t *testing.T) {
+	tests := []struct {
+		name     string
+		message  ResponseMessage
+		expected string
+	}{
+		{
+			name:     "string text",
+			message:  ResponseMessage{Text: "Hello world"},
+			expected: "Hello world",
+		},
+		{
+			name:     "array text",
+			message:  ResponseMessage{Text: []interface{}{"First message"}},
+			expected: "First message",
+		},
+		{
+			name:     "empty array",
+			message:  ResponseMessage{Text: []interface{}{}},
+			expected: "",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := tt.message.GetTextContent()
+			if result != tt.expected {
+				t.Errorf("GetTextContent() = %v, want %v", result, tt.expected)
+			}
+		})
 	}
 }
