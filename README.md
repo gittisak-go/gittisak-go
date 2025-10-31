@@ -3,7 +3,7 @@
     <a align="center" href="https://developers.moralis.com/" target="_blank">
       <img src="https://raw.githubusercontent.com/gittisak-go/gittisak-go/refs/heads/main/images/tgittisak-logo.svg" alt="Moralis Analytics" height=200/>
     </a>
-    <h1 align="center">gitmintAPI rest API.</h1>
+    <h1 align="center">Model Context Protocol (MCP)</h1>
   </p>
   <p>
 
@@ -12,7 +12,7 @@
 </div>
 
 
-# Model Context Protocol (MCP)
+# go
 
 MCP is an open protocol that standardizes how applications provide context to LLMs.
 
