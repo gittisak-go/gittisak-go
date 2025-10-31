@@ -1,4 +1,17 @@
-[logo](https://github.com/gittisak-go/gittisak-go/commit/c834d7b7934ee2ef4a9608da9ad5a6d7c143afdc)
+<div align="center">
+  <p>
+    <a align="center" href="https://developers.moralis.com/" target="_blank">
+      <img src="https://raw.githubusercontent.com/gittisak-go/gittisak-go/refs/heads/main/images/tgittisak-logo.svg" alt="Moralis Analytics" height=200/>
+    </a>
+    <h1 align="center">gittisak-go MCP Server</h1>
+  </p>
+  <p>
+    A TypeScript-based MCP server that implements a wrapper to the Moralis rest API.
+  </p>
+  <br/>
+</div>
+
+
 
 # Model Context Protocol (MCP)
 
