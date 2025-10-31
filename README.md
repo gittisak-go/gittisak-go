@@ -3,15 +3,14 @@
     <a align="center" href="https://developers.moralis.com/" target="_blank">
       <img src="https://raw.githubusercontent.com/gittisak-go/gittisak-go/refs/heads/main/images/tgittisak-logo.svg" alt="Moralis Analytics" height=200/>
     </a>
-    <h1 align="center">A TypeScript-based MCP server that implements a wrapper to the Moralis rest</h1>
+    <h1 align="center">gitmintAPI rest API.</h1>
   </p>
   <p>
-    gitmintAPI rest API.
+
   </p>
   <br/>
 </div>
 
- API.
 
 # Model Context Protocol (MCP)
 
