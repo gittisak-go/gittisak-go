@@ -1,184 +1,298 @@
-<div align="center">
-  <p>
-    <a align="center" href="https://developers.moralis.com/" target="_blank">
-      <img src="https://raw.githubusercontent.com/MoralisWeb3/moralis-analytics-js/main/assets/moralis-logo.svg" alt="Moralis Analytics" height=200/>
-    </a>
-    <h1 align="center">Moralis MCP Server</h1>
-  </p>
-  <p>
-    A TypeScript-based MCP server that implements a wrapper to the Moralis rest API.
-  </p>
-  <br/>
-</div>
+# Gittisak-Go: Abacus.AI ChatLLM Go Client
 
-![smithery badge](https://smithery.ai/badge/@MoralisWeb3/moralis-mcp-server)
+A Go client library for the [Abacus.AI ChatLLM](https://abacus.ai/chat_llm-ent) enterprise API. This library provides a simple and idiomatic Go interface for interacting with Abacus.AI's ChatLLM service, which offers access to multiple state-of-the-art LLMs including GPT-4o, Claude 3.5 Sonnet, and Gemini 1.5.
 
-## 🧠 Overview
-The **Moralis MCP Server** is a local or cloud-deployable engine that connects natural language prompts to real blockchain insights — allowing AI models to query wallet activity, token metrics, dapp usage, and more without custom code or SQL.
+## Features
 
-Built on top of the [Model Context Protocol](https://github.com/modelcontextprotocol/spec), this server makes it easy for LLMs to talk to Moralis APIs in a consistent, explainable, and extensible way.
+- 🚀 Simple and intuitive API
+- 🔐 Built-in authentication with API keys and deployment tokens
+- 🎯 Type-safe request and response structures
+- ⚡ Context support for cancellation and timeouts
+- 🧪 Comprehensive test coverage
+- 📝 Full documentation and examples
+- ✅ **Works with the real Abacus.AI API**
 
-- 🔗 Fully pluggable: swap LLMs, customize retrieval logic, or extend with your own tools
-- 🧱 Works with OpenAI, Claude, and open-source models
-- 🧠 Powers agents, devtools, bots, dashboards, and beyond
+## Installation
 
-## ⚙️ Common Use Cases
-
-- 🤖 AI agents & assistants: “What’s this wallet’s trading history?”
-- 📈 Devtools: on-chain QA, testing, CLI integrations
-- 📊 Dashboards: natural language to charts/data
-- 📉 Monitoring: alerting & summarization for tokens/dapps
-- 🧠 Trading bots: LLM-driven strategies with real blockchain grounding
-
-## 🔐 Getting an API Key
-
-To use this MCP server with Moralis APIs, you'll need an API key:
-
-1. Go to [Moralis](https://admin.moralis.com) developer portal
-2. Sign up and log in
-3. Navigate to your [API Keys page](https://admin.moralis.com/api-keys) from the main menu
-4. Copy your key and configure it in your config file (see next section), or set it in your environment:
 ```bash
-export MORALIS_API_KEY=<your_api_key>
+go get github.com/gittisak-go/gittisak-go
 ```
-> ⚠️ Note: Some features and endpoints require a Moralis paid plan. For full access and production-grade performance, we recommend signing up for a paid tier.
 
-## 🚀 Usage with a Client
+## Quick Start
 
-To connect the MCP server to a compatible client (e.g. Claude Desktop, OpenAI-compatible agents, VS Code extensions, etc.), configure the client to launch the server as a subprocess.
+### Prerequisites
 
-Most clients support a simple config file - for example, you might create a file like mcp.json in the client’s configuration directory with the following:
+To use this library, you need:
 
-```json
-{
-  "mcpServers": {
-    "serverName": {
-      "command": "npx @moralisweb3/api-mcp-server",
-      "args": [],
-      "env": {
-        "MORALIS_API_KEY": "<YOUR_API_KEY>"
-      }
+1. **API Key**: Get one from [Abacus.AI Dashboard](https://admin.abacus.ai)
+   - Sign up and log in
+   - Navigate to your API Keys page
+   - Create and copy your API key
+
+2. **Deployment Token and ID**: Create a ChatLLM deployment
+   - Go to your Abacus.AI dashboard
+   - Create or select a ChatLLM deployment
+   - Note the deployment ID and token
+
+### Basic Usage
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/gittisak-go/gittisak-go/pkg/chatllm"
+)
+
+func main() {
+    // Create a new client
+    client, err := chatllm.NewClient(chatllm.Config{
+        APIKey:          "your-api-key",
+        DeploymentToken: "your-deployment-token",
+        DeploymentID:    "your-deployment-id",
+    })
+    if err != nil {
+        log.Fatal(err)
     }
-  }
+
+    // Create chat messages
+    messages := []chatllm.ChatMessage{
+        {
+            IsUser: true,
+            Text:   "What is the capital of France?",
+        },
+    }
+
+    // Send the request
+    resp, err := client.GetChatResponse(context.Background(), messages)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // Print the response
+    for _, msg := range resp.Messages {
+        if !msg.IsUser {
+            fmt.Println("Assistant:", msg.GetTextContent())
+        }
+    }
 }
 ```
 
-This setup can be adapted for any client that supports MCP servers. Replace the example values with those specific to your use case.
+## Configuration
 
-### Installing via Smithery
-
-To install Moralis API Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@MoralisWeb3/moralis-mcp-server):
+### Using Environment Variables
 
 ```bash
-npx -y @smithery/cli install @MoralisWeb3/moralis-mcp-server --client claude
+export ABACUS_API_KEY="your-api-key"
+export ABACUS_DEPLOYMENT_TOKEN="your-deployment-token"
+export ABACUS_DEPLOYMENT_ID="your-deployment-id"
 ```
 
+```go
+client, err := chatllm.NewClient(chatllm.Config{
+    APIKey:          os.Getenv("ABACUS_API_KEY"),
+    DeploymentToken: os.Getenv("ABACUS_DEPLOYMENT_TOKEN"),
+    DeploymentID:    os.Getenv("ABACUS_DEPLOYMENT_ID"),
+})
+```
 
-## 🖥️ Using as a Server
+### Custom Configuration
 
-The server accepts an optional `--transport` argument to specify the transport type. The available transport types are:
+```go
+client, err := chatllm.NewClient(chatllm.Config{
+    APIKey:          "your-api-key",
+    DeploymentToken: "your-deployment-token",
+    DeploymentID:    "your-deployment-id",
+    BaseURL:         "https://api.abacus.ai",  // optional
+    Timeout:         60 * time.Second,         // optional
+})
+```
 
-- `stdio`: Communicates over standard input/output (default).
-- `web`: Starts a HTTP server for communication.
-- `streamable-http`: Starts an HTTP server with streamable endpoints.
+## API Reference
 
-### Examples
+### Client Creation
 
-1. **Using the default `stdio` transport**:
-  ```bash
-  moralis-api-mcp --transport stdio
-  ```
+#### `NewClient(config Config) (*Client, error)`
 
-2. **Using the `web` transport**:
-  ```bash
-  moralis-api-mcp --transport web
-  ```
+Creates a new ChatLLM client with full configuration options.
 
-  This will start a HTTP server. You can send requests to the server using tools like `curl` or Postman.
+```go
+client, err := chatllm.NewClient(chatllm.Config{
+    APIKey:          "your-api-key",
+    DeploymentToken: "your-deployment-token",
+    DeploymentID:    "your-deployment-id",
+    BaseURL:         "https://api.abacus.ai", // optional
+    Timeout:         30 * time.Second,        // optional
+})
+```
 
-3. **Using the `streamable-http` transport**:
-  ```bash
-  moralis-api-mcp --transport streamable-http
-  ```
+### Chat Operations
 
-  This will start an HTTP server. You can send requests to the server using tools like `curl` or Postman.
+#### `GetChatResponse(ctx context.Context, messages []ChatMessage, options ...ChatOption) (*ChatResponse, error)`
 
-### Notes
-- Ensure that the required environment variables (e.g., `MORALIS_API_KEY`) are set before starting the server.
-- For custom configurations, you can pass additional arguments or environment variables as needed.
-- Refer to the documentation for more details on each transport type.
+Sends a chat request to the Abacus.AI getChatResponse endpoint.
 
-## 🛠 Development
+**Parameters:**
 
-Install dependencies:
+- `ctx`: Context for cancellation and timeout
+- `messages`: Array of chat messages
+- `options`: Optional configuration (model, temperature, etc.)
+
+**Message Structure:**
+
+```go
+type ChatMessage struct {
+    IsUser bool   `json:"is_user"` // true for user, false for assistant
+    Text   string `json:"text"`    // message content
+}
+```
+
+**Example with Options:**
+
+```go
+messages := []chatllm.ChatMessage{
+    {
+        IsUser: true,
+        Text:   "Explain quantum computing",
+    },
+}
+
+resp, err := client.GetChatResponse(
+    context.Background(),
+    messages,
+    chatllm.WithSystemMessage("You are a helpful assistant."),
+    chatllm.WithLLMName("gpt-4"),
+    chatllm.WithTemperature(0.7),
+    chatllm.WithNumCompletionTokens(500),
+)
+```
+
+### Available Options
+
+- `WithLLMName(name string)` - Set the LLM model to use
+- `WithTemperature(temp float64)` - Set sampling temperature (0-2)
+- `WithSystemMessage(msg string)` - Set system instructions
+- `WithNumCompletionTokens(tokens int)` - Set max tokens to generate
+- `WithChatConfig(config map[string]interface{})` - Set additional configuration
+
+### Response Structure
+
+```go
+type ChatResponse struct {
+    DeploymentConversationID string            // Conversation ID
+    Messages                 []ResponseMessage // Full message history
+    DocIDs                   []string          // Referenced document IDs
+    KeywordArguments         map[string]string // Additional metadata
+}
+
+type ResponseMessage struct {
+    IsUser    bool        // true if from user
+    Text      interface{} // message content (string or []string)
+    Timestamp string      // message timestamp
+}
+```
+
+Use `GetTextContent()` method to safely extract text from ResponseMessage:
+
+```go
+for _, msg := range resp.Messages {
+    if !msg.IsUser {
+        fmt.Println(msg.GetTextContent())
+    }
+}
+```
+
+## Examples
+
+See the [examples](./examples) directory for complete working examples:
+
+- [Basic Example](./examples/basic/main.go) - Simple chat with options
+
+To run the example:
+
 ```bash
-npm install
+export ABACUS_API_KEY="your-api-key"
+export ABACUS_DEPLOYMENT_TOKEN="your-deployment-token"
+export ABACUS_DEPLOYMENT_ID="your-deployment-id"
+go run examples/basic/main.go
 ```
 
-Build the server:
-```bash
-npm run build
-```
+## Testing
 
-For development with auto-rebuild:
-```bash
-npm run watch
-```
-
-### 🐞 Debugging
-
-Since MCP servers communicate over stdio, debugging can be challenging. We recommend using the [MCP Inspector](https://github.com/modelcontextprotocol/inspector), which is available as a package script:
+Run the test suite:
 
 ```bash
-npm run inspector
+go test ./...
 ```
 
-The Inspector will provide a URL to access debugging tools in your browser.
+Run tests with coverage:
 
-
-## 💬 Example Prompts
-
-Here are some example prompts you can use with your AI agent through the MCP server:
-
-```
-- What’s the current price of PEPE and Ethereum?
-
-- What is the current trading sentiment for TOSHI on Base — bullish or bearish?
-
-- Show me the NFTs owned by `vitalik.eth` on Base.
-
-- What tokens does wallet `0xab71...4321` hold?
-
-- When was wallet 0xabc...123 first and last seen active on Ethereum, Base, and Polygon?
-
-- Show me the complete transaction history for 0xabc...123 across Ethereum, Base, and BNB Chain.
-
-- What is the current net worth in USD of wallet 0xabc...123?
-
-- Find wallet addresses that are likely associated with Coinbase.
-
-- Analyze the current holder distribution of SPX6900 — include whales, small holders, and recent growth trends.
-
-- Show me PEPE’s daily OHLC data for the past 30 days and provide a summary of the trend — is it bullish or bearish?
+```bash
+go test -cover ./...
 ```
 
-These prompts are parsed and mapped to structured Moralis API calls using the MCP method registry.
+## Supported Models
 
-> 💡 You can also build custom prompts based on any supported method.
+The library supports all LLM models available through Abacus.AI ChatLLM deployments, including:
 
-
-## 📚 API Reference
-
-The Moralis MCP Server wraps and translates prompts into Moralis REST API calls. You can explore the underlying API surface here:
-
-🔗 **[Moralis Swagger Docs (v2.2)](https://deep-index.moralis.io/api-docs-2.2/)**
-
-This documentation covers endpoints for:
-
-- Token pricing
-- Wallet activity
-- NFT metadata and ownership
-- Transfers and transactions
+- GPT-4o
+- GPT-4 Turbo
+- GPT-3.5 Turbo
+- Claude 3.5 Sonnet
+- Claude 3 Opus
+- Gemini 1.5 Pro
+- Gemini 1.5 Flash
 - And more
 
+The available models depend on your Abacus.AI deployment configuration.
 
+## Error Handling
+
+The library returns descriptive errors that can be checked and handled:
+
+```go
+resp, err := client.GetChatResponse(ctx, messages)
+if err != nil {
+    log.Printf("Error getting chat response: %v", err)
+    return
+}
+```
+
+Common error scenarios:
+- Missing API key, deployment token, or deployment ID
+- Network errors
+- API errors (invalid deployment, quota exceeded, etc.)
+- Invalid message format
+
+## Authentication
+
+This library uses Abacus.AI's authentication system:
+
+1. **API Key**: Sent in the `apiKey` header for API authentication
+2. **Deployment Token**: Identifies your specific ChatLLM deployment
+3. **Deployment ID**: The unique identifier for your deployment
+
+All three are required for the client to work properly.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Built for the [Abacus.AI ChatLLM](https://abacus.ai/chat_llm-ent) API
+- Follows Go best practices and idiomatic patterns
+
+## Support
+
+For issues and questions:
+- Open an issue on GitHub
+- Check the [Abacus.AI documentation](https://abacus.ai/help/api/ref/predict/getChatResponse)
+- Visit the [Abacus.AI API Reference](https://abacus.ai/help/ref)
