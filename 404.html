@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Page not found</title>
+  <script>
+    (function() {
+      // If requested path is not root/index, redirect to root and preserve original path in hash
+      if (location.pathname === '/' || location.pathname.endsWith('index.html')) return;
+      var path = location.pathname + location.search + location.hash;
+      location.replace('/#' + encodeURIComponent(path));
+    })();
+  </script>
+</head>
+<body>
+  <p>Redirecting…</p>
+</body>
+</html>
