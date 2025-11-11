@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "gittisak-go": {
+      "command": "/path/to/gittisak-go/bin/mcp-server",
+      "args": [],
+      "env": {}
+    }
+  }
+}
