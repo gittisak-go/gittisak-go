@@ -11,6 +11,41 @@
   <br/>
 </div>
 
+# Gittisak Go - MCP Server Implementation
+
+**🚀 A production-ready Model Context Protocol server written in Go**
+
+This repository contains a complete MCP server implementation that enables AI applications like Claude Desktop, VSCode, Perplexity, and Figma to connect to your local machine and access tools and resources.
+
+## Quick Start
+
+```bash
+# Build the server
+make build
+
+# The binary will be at: bin/mcp-server
+```
+
+For detailed setup instructions, see [README-MCP.md](README-MCP.md)
+
+## Features
+
+✅ **stdio Transport** - Standard MCP communication protocol  
+✅ **JSON-RPC 2.0** - Fully compliant with MCP specification  
+✅ **Built-in Tools** - Echo, get time, read file tools included  
+✅ **Extensible** - Easy to add custom tools  
+✅ **Zero Dependencies** - Pure Go implementation  
+
+## Client Support
+
+This server works with:
+- 🤖 Claude Desktop
+- 💻 VSCode (with MCP extension)
+- 🔍 Perplexity
+- 🎨 Figma (via MCP plugins)
+- Any MCP-compatible client
+
+---
 
 # go
 
