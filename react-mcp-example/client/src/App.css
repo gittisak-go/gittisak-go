@@ -1,0 +1,61 @@
+.App {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.tab-content {
+  min-height: 400px;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.info-card {
+  margin-top: 3rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(100, 108, 255, 0.1), rgba(100, 108, 255, 0.05));
+  border-radius: 12px;
+  border: 1px solid rgba(100, 108, 255, 0.3);
+  text-align: left;
+}
+
+.info-card h3 {
+  color: #646cff;
+  margin-bottom: 1rem;
+}
+
+.info-card ul {
+  margin-left: 2rem;
+  margin-top: 1rem;
+}
+
+.info-card li {
+  margin: 0.5rem 0;
+}
+
+@media (max-width: 768px) {
+  .tabs {
+    flex-direction: column;
+  }
+  
+  .tab {
+    width: 100%;
+    padding: 0.75rem;
+  }
+}
