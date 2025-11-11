@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "react-mcp-example": {
+      "command": "node",
+      "args": [
+        "/ABSOLUTE/PATH/TO/react-mcp-example/server/index.js"
+      ],
+      "env": {}
+    }
+  }
+}

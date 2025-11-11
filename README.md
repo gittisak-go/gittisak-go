@@ -126,6 +126,48 @@ Depending on where you sit in the ecosystem, MCP can have a range of benefits.
   </Card>
 </CardGroup>
 
+---
+
+## 🚀 Production-Ready Examples / ตัวอย่างที่พร้อมใช้งานจริง
+
+### React MCP Server Example
+
+🎯 **ตัวอย่าง MCP Server พร้อม React Client ที่สามารถใช้งานได้จริง**
+
+ตัวอย่างที่สมบูรณ์แบบสำหรับการสร้าง MCP Server ด้วย Node.js และ React Client พร้อมคุณสมบัติ:
+
+- ✅ **Task Management** - ระบบจัดการงานพร้อมระดับความสำคัญ
+- ✅ **Note-taking** - ระบบบันทึกโน้ตพร้อมแท็กและการค้นหา
+- ✅ **Weather Info** - ข้อมูลสภาพอากาศ (จำลอง)
+- ✅ **Full Documentation** - เอกสารครบถ้วนภาษาไทยและอังกฤษ
+- ✅ **Production-Ready** - พร้อมใช้งานจริง
+
+**📂 ตำแหน่ง / Location:** [`react-mcp-example/`](react-mcp-example/)
+
+**📖 Quick Start:**
+```bash
+# Clone and setup
+cd react-mcp-example
+
+# Install server dependencies
+cd server && npm install
+
+# Install client dependencies  
+cd ../client && npm install
+
+# Start server
+cd ../server && npm start
+
+# Start client (in new terminal)
+cd ../client && npm run dev
+```
+
+**🔗 เอกสาร / Documentation:**
+- [README - เอกสารหลัก](react-mcp-example/README.md)
+- [Quick Start Guide - คู่มือเริ่มต้นอย่างรวดเร็ว](react-mcp-example/QUICKSTART.md)
+- [Server Documentation - รายละเอียด Server](react-mcp-example/server/README.md)
+
+---
 
 <!--
 **gittisak-go/gittisak-go** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
