@@ -6,7 +6,7 @@
     <h1 align="center">Model Context Protocol (MCP)</h1>
   </p>
   <p>
-
+    <a href="./README-th.md">📖 คู่มือภาษาไทย (Thai Documentation)</a>
   </p>
   <br/>
 </div>
