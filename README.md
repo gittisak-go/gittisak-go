@@ -91,6 +91,27 @@ Depending on where you sit in the ecosystem, MCP can have a range of benefits.
   </Card>
 </CardGroup>
 
+## Custom GitHub Copilot Agents
+
+This repository includes specialized AI agents for GitHub Copilot to enhance your development experience:
+
+### 🎓 MIT Professor Agent
+An MIT emeritus professor specializing in software architecture and engineering best practices.
+
+**Expertise:**
+- Clean Code & System Architecture
+- Python, React, React Native
+- API Design (REST, GraphQL, FastAPI)
+- DevOps & CI/CD (Docker, GitHub Actions)
+- Cloud Platforms & AI Integration
+
+**Features:**
+- Production-ready code with security considerations
+- In-depth explanations focusing on "why" not just "how"
+- Proactive identification of performance and scalability issues
+- Complete working examples with error handling
+
+📖 Learn more in [`.github/agents/README.md`](.github/agents/README.md)
 
 <!--
 **gittisak-go/gittisak-go** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
