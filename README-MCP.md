@@ -262,11 +262,84 @@ All messages follow JSON-RPC 2.0 format:
 
 ## Troubleshooting
 
+### Cannot access MCP / Where is my project?
+### ไม่สามารถเข้าถึง MCP ได้ / โครงการของฉันอยู่ที่ไหน?
+
+If you cannot access MCP or are unsure where your project was created, follow these steps:
+
+หากคุณไม่สามารถเข้าถึง MCP ได้ หรือไม่แน่ใจว่าสร้างโครงการไว้ที่ไหน ให้ทำตามขั้นตอนเหล่านี้:
+
+#### Step 1: Verify Installation Location / ตรวจสอบตำแหน่งการติดตั้ง
+
+Run the verification script to check your MCP setup:
+```bash
+# Navigate to the project directory
+cd /path/to/gittisak-go
+
+# Run the verification script
+./verify-mcp-setup.sh
+```
+
+Or manually check these locations:
+```bash
+# Find where you cloned this repository
+find ~ -name "gittisak-go" -type d 2>/dev/null
+
+# Check if the MCP server binary exists
+ls -la bin/mcp-server
+```
+
+#### Step 2: Check Client Configuration / ตรวจสอบการตั้งค่าไคลเอนต์
+
+Check your MCP client configuration file for existing settings:
+
+**Claude Desktop configuration locations:**
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+- **Linux**: `~/.config/Claude/claude_desktop_config.json`
+
+**VSCode MCP configuration:**
+- Check VSCode settings (JSON) for `mcp.servers` section
+
+```bash
+# On macOS/Linux, view your Claude Desktop config:
+cat ~/Library/Application\ Support/Claude/claude_desktop_config.json 2>/dev/null || \
+cat ~/.config/Claude/claude_desktop_config.json 2>/dev/null || \
+echo "Config file not found - Claude Desktop may not be installed or configured"
+```
+
+#### Step 3: Rebuild and Test / สร้างใหม่และทดสอบ
+
+If you found your project but it's not working:
+```bash
+# Clean and rebuild
+make clean
+make build
+
+# Test the server
+./test.sh
+
+# Verify the binary works
+echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"test","version":"1.0"}}}' | ./bin/mcp-server
+```
+
+#### Step 4: Verify Permissions / ตรวจสอบสิทธิ์
+
+```bash
+# Make sure the binary is executable
+chmod +x bin/mcp-server
+
+# Verify the path is correct in your config
+# The path must be ABSOLUTE, not relative
+echo "Full path to server: $(pwd)/bin/mcp-server"
+```
+
 ### Server not appearing in Claude Desktop
 
 1. Verify the path to the binary is absolute and correct
 2. Check that the binary has execute permissions: `chmod +x bin/mcp-server`
 3. Look at Claude Desktop logs (usually in the application data directory)
+4. Restart Claude Desktop after making configuration changes
 
 ### "Permission Denied" errors
 
@@ -281,6 +354,16 @@ Check that:
 - All required parameters are provided
 - File paths (for read_file) are accessible
 - The server has appropriate permissions
+
+### Common Issues / ปัญหาที่พบบ่อย
+
+| Issue / ปัญหา | Solution / วิธีแก้ |
+|---------------|-------------------|
+| Cannot find project / หาโครงการไม่เจอ | Run `find ~ -name "gittisak-go" -type d` |
+| Server not starting / เซิร์ฟเวอร์ไม่เริ่มทำงาน | Rebuild with `make clean && make build` |
+| Config not found / หาการตั้งค่าไม่เจอ | Create config file at the correct location (see Step 2) |
+| Path error / ข้อผิดพลาดเส้นทาง | Use absolute path: `$(pwd)/bin/mcp-server` |
+| Permission error / ข้อผิดพลาดสิทธิ์ | Run `chmod +x bin/mcp-server` |
 
 ## Contributing
 
