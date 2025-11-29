@@ -1,9 +1,9 @@
 <div align="center">
   <p>
-    <a align="center" href="https://developers.moralis.com/" target="_blank">
-      <img src="https://raw.githubusercontent.com/gittisak-go/gittisak-go/refs/heads/main/images/tgittisak-logo.svg" alt="Moralis Analytics" height=200/>
+    <a align="center" href="#"_blank">
+      <img src="https://res.cloudinary.com/dcwjok3nu/image/upload/v1764411147/Backend-sparesos_gd5myv.jpg" alt="gittisak-go" height=100%/>
     </a>
-    <h1 align="center">Model Context Protocol (MCP)</h1>
+    <h1 align="center">GtsAlpha Model Context Protocol (MCP)</h1>
   </p>
   <p>
 
@@ -11,7 +11,7 @@
   <br/>
 </div>
 
-# Gittisak Go - MCP Server Implementation
+## Gittisak Go - MCP Server Thailand 100%
 
 **🚀 A production-ready Model Context Protocol server written in Go**
 
