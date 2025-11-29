@@ -91,6 +91,12 @@ MCP เปรียบเหมือน USB-C สำหรับ AI application
 * **AI applications or agents** (แอป/Agent AI): ใช้งานแหล่งข้อมูล, เครื่องมือ, แอป อื่นๆ ได้ง่ายและหลากหลาย เพิ่มประสิทธิภาพ
 * **End-users** (ผู้ใช้งาน): ได้รับประสบการณ์จาก AI ที่ฉลาดขึ้น ใช้งานได้จริงและช่วยทำงาน/ตัดสินใจได้หลากหลาย
 
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=kOhLoixrJXo">
+    <img src="https://img.youtube.com/vi/kOhLoixrJXo/maxresdefault.jpg" alt="Watch the video" style="max-width: 600px; width: 100%;">
+  </a>
+</div>
+
 ## Start Building (เริ่มสร้าง—Build Now!)
 
 <CardGroup cols={2}>
