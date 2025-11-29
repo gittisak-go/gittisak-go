@@ -4,125 +4,130 @@
       <img src="https://res.cloudinary.com/dcwjok3nu/image/upload/v1764411147/Backend-sparesos_gd5myv.jpg" alt="gittisak-go" height=100%/>
     </a>
     <h1 align="center">GtsAlpha Model Context Protocol (MCP)</h1>
+    <h3 align="center">(โปรโตคอลบริบทโมเดล—Model Context Protocol: MCP)</h3>
   </p>
   <p>
-
   </p>
   <br/>
 </div>
 
-## Gittisak Go - MCP Server Thailand 100%
+## Gittisak Go - MCP Server Thailand 100% (เซิร์ฟเวอร์ MCP เปิดซอร์สพร้อมใช้ สำหรับประเทศไทย)
 
-**🚀 A production-ready Model Context Protocol server written in Go**
+**🚀 A production-ready Model Context Protocol server written in Go**  
+**🚀 เซิร์ฟเวอร์ Model Context Protocol (MCP) ที่พร้อมใช้งานจริง พัฒนาด้วยภาษา Go**
 
-This repository contains a complete MCP server implementation that enables AI applications like Claude Desktop, VSCode, Perplexity, and Figma to connect to your local machine and access tools and resources.
+คลังข้อมูลนี้ (repository) ประกอบด้วยเซิร์ฟเวอร์ MCP ที่ครบสมบูรณ์  
+เหมาะสำหรับการเชื่อมต่อแอปพลิเคชัน AI ต่างๆ (เช่น Claude Desktop, VSCode, Perplexity, Figma) กับเครื่องของคุณเพื่อใช้งานเครื่องมือ (tools) และแหล่งข้อมูล (resources) ได้อย่างมีประสิทธิภาพ
 
-## Quick Start
+## Quick Start (เริ่มต้นใช้งานอย่างรวดเร็ว)
 
 ```bash
-# Build the server
+# Build the server (สร้างเซิร์ฟเวอร์)
 make build
 
 # The binary will be at: bin/mcp-server
+# ไฟล์โปรแกรมจะอยู่ที่: bin/mcp-server
 ```
 
-For detailed setup instructions, see [README-MCP.md](README-MCP.md)
+ดูคำแนะนำการติดตั้งแบบละเอียดที่ [README-MCP.md](README-MCP.md)
 
-## Features
+## Features (คุณสมบัติเด่น)
 
-✅ **stdio Transport** - Standard MCP communication protocol  
-✅ **JSON-RPC 2.0** - Fully compliant with MCP specification  
-✅ **Built-in Tools** - Echo, get time, read file tools included  
-✅ **Extensible** - Easy to add custom tools  
-✅ **Zero Dependencies** - Pure Go implementation  
+✅ **stdio Transport** - สื่อสารผ่านมาตรฐาน MCP  
+✅ **JSON-RPC 2.0** - รองรับมาตรฐาน MCP อย่างสมบูรณ์ (Fully compliant)  
+✅ **Built-in Tools** - มีเครื่องมือพื้นฐาน เช่น echo, ดูเวลา, อ่านไฟล์  
+✅ **Extensible** - เพิ่มเครื่องมือใหม่ได้อย่างง่ายดาย (ต่อขยายได้)  
+✅ **Zero Dependencies** - เขียนด้วย Go ล้วน ไม่ต้องมีไลบรารีจากภายนอก  
 
-## Client Support
+## Client Support (รองรับการเชื่อมต่อกับ)
 
-This server works with:
 - 🤖 Claude Desktop
-- 💻 VSCode (with MCP extension)
+- 💻 VSCode (พร้อมส่วนขยาย MCP extension)
 - 🔍 Perplexity
-- 🎨 Figma (via MCP plugins)
-- Any MCP-compatible client
+- 🎨 Figma (ผ่านปลั๊กอิน MCP)
+- หรือแอปที่รองรับ MCP อื่นๆ
 
 ---
 
-# go
+# Go
 
-MCP is an open protocol that standardizes how applications provide context to LLMs.
+MCP คือโปรโตคอลเปิด (Open Protocol) ที่ออกแบบมาเพื่อเป็นมาตรฐานกลางในการเชื่อมโยง application กับ context สำหรับ LLM (Large Language Models)
 
-Think of MCP like a USB-C port for AI applications. Just as USB-C provides a standardized way to connect your devices to various peripherals and accessories, MCP provides a standardized way to connect AI models to different data sources and tools.
+MCP เปรียบเสมือน USB-C ของโลก AI  
+เช่นเดียวกับที่พอร์ต USB-C ให้มาตรฐานกลางในการเชื่อมอุปกรณ์ electronic ต่างๆ MCP คือมาตรฐานกลางในการเชื่อมข้อมูลและเครื่องมือ ให้กับแอปพลิเคชัน AI
 
-## Go Build MCP products
+## Go Build MCP products  
+(พัฒนาโซลูชัน MCP ด้วยภาษา Go ได้เลย)
 
-# What is the Model Context Protocol (MCP)?
+# What is the Model Context Protocol (MCP)?  
+(MCP คืออะไร?)
 
-MCP (Model Context Protocol) is an open-source standard for connecting AI applications to external systems.
+Model Context Protocol (MCP) คือมาตรฐานเปิด (Open Standard) สำหรับเชื่อม Application AI เข้ากับระบบภายนอก เช่น ฐานข้อมูล เครื่องมือ หรือเวิร์กโฟลว์ต่างๆ
 
-Using MCP, AI applications like Claude or ChatGPT can connect to data sources (e.g. local files, databases), tools (e.g. search engines, calculators) and workflows (e.g. specialized prompts)—enabling them to access key information and perform tasks.
+เช่น AI อย่าง Claude หรือ ChatGPT จะสามารถเชื่อมกับข้อมูลในไฟล์ (local files), ฐานข้อมูล, เครื่องมือ (Tools) เช่น เครื่องคิดเลข หรือเครื่องมือเฉพาะทางอื่นๆ ได้—ทำให้ AI ทำงานได้กว้างขึ้น ทรงพลังขึ้น
 
-Think of MCP like a USB-C port for AI applications. Just as USB-C provides a standardized way to connect electronic devices, MCP provides a standardized way to connect AI applications to external systems.
+MCP เปรียบเหมือน USB-C สำหรับ AI applications  
+ดังที่ USB-C เป็นมาตรฐานกลาง สำหรับเชื่อมอุปกรณ์ต่างๆ, MCP เป็นมาตรฐานกลางสำหรับเชื่อมแอป AI กับระบบและทรัพยากรภายนอก
 
 <Frame>
-  <img src="https://mintcdn.com/mcp/bEUxYpZqie0DsluH/images/mcp-simple-diagram.png?fit=max&auto=format&n=bEUxYpZqie0DsluH&q=85&s=35268aa0ad50b8c385913810e7604550" data-og-width="3840" width="3840" data-og-height="1500" height="1500" data-path="images/mcp-simple-diagram.png" data-optimize="true" data-opv="3" srcset="https://mintcdn.com/mcp/bEUxYpZqie0DsluH/images/mcp-simple-diagram.png?w=280&fit=max&auto=format&n=bEUxYpZqie0DsluH&q=85&s=0cea440365b03c2f2a299b0104375b8b 280w, https://mintcdn.com/mcp/bEUxYpZqie0DsluH/images/mcp-simple-diagram.png?w=560&fit=max&auto=format&n=bEUxYpZqie0DsluH&q=85&s=2391513484df96fa7203739dae5e53b0 560w, https://mintcdn.com/mcp/bEUxYpZqie0DsluH/images/mcp-simple-diagram.png?w=840&fit=max&auto=format&n=bEUxYpZqie0DsluH&q=85&s=96f5e553bee1051dc882db6c832b15bc 840w, https://mintcdn.com/mcp/bEUxYpZqie0DsluH/images/mcp-simple-diagram.png?w=1100&fit=max&auto=format&n=bEUxYpZqie0DsluH&q=85&s=341b88d6308188ab06bf05748c80a494 1100w, https://mintcdn.com/mcp/bEUxYpZqie0DsluH/images/mcp-simple-diagram.png?w=1650&fit=max&auto=format&n=bEUxYpZqie0DsluH&q=85&s=a131a609c7b6a70f342f493bbad57fcb 1650w, https://mintcdn.com/mcp/bEUxYpZqie0DsluH/images/mcp-simple-diagram.png?w=2500&fit=max&auto=format&n=bEUxYpZqie0DsluH&q=85&s=dc4ab238184b6c70e06e871681c921c5 2500w" />
+  <img src="https://mintcdn.com/mcp/bEUxYpZqie0DsluH/images/mcp-simple-diagram.png?fit=max&auto=format&n=bEUxYpZqie0DsluH&q=85&s=35268aa0ad50b8c385913810e7604550" data-og-width="3840" width="3840" data-og-height="2160" alt="MCP Simple Architecture Diagram"/>
+  <p align="center"><i>แผนภาพโครงสร้างพื้นฐานของ MCP (Simple Architecture of MCP Protocol)</i></p>
 </Frame>
 
-## What can MCP enable?
+## What can MCP enable?  
+(MCP เปิดศักยภาพอะไรได้บ้าง?)
 
-* Agents can access your Google Calendar and Notion, acting as a more personalized AI assistant.
-* Claude Code can generate an entire web app using a Figma design.
-* Enterprise chatbots can connect to multiple databases across an organization, empowering users to analyze data using chat.
-* AI models can create 3D designs on Blender and print them out using a 3D printer.
+* เอเจนต์ (Agents) เข้าถึง Google Calendar และ Notion ของผู้ใช้ ปรับแต่งให้เป็นผู้ช่วย AI ส่วนตัว
+* Claude Code สร้างแอปเว็บครบชุดจากดีไซน์ Figma
+* แชทบอทองค์กรเข้าถึงฐานข้อมูลหลากหลาย เพื่อช่วยวิเคราะห์ข้อมูลผ่านการสนทนา
+* AI สร้าง 3D Designs ใน Blender แล้วสั่งพิมพ์ 3D Printer โดยอัตโนมัติ
 
-## Why does MCP matter?
+## Why does MCP matter?  
+(ทำไม MCP ถึงสำคัญ?)
 
-Depending on where you sit in the ecosystem, MCP can have a range of benefits.
+ประโยชน์ของ MCP ขึ้นอยู่กับบทบาทของคุณใน ecosystem
 
-* **Developers**: MCP reduces development time and complexity when building, or integrating with, an AI application or agent.
-* **AI applications or agents**: MCP provides access to an ecosystem of data sources, tools and apps which will enhance capabilities and improve the end-user experience.
-* **End-users**: MCP results in more capable AI applications or agents which can access your data and take actions on your behalf when necessary.
+* **Developers** (นักพัฒนา): ลดเวลาพัฒนาและความซับซ้อน เมื่อสร้างหรือเชื่อมต่อแอป AI/Agent
+* **AI applications or agents** (แอป/Agent AI): ใช้งานแหล่งข้อมูล, เครื่องมือ, แอป อื่นๆ ได้ง่ายและหลากหลาย เพิ่มประสิทธิภาพ
+* **End-users** (ผู้ใช้งาน): ได้รับประสบการณ์จาก AI ที่ฉลาดขึ้น ใช้งานได้จริงและช่วยทำงาน/ตัดสินใจได้หลากหลาย
 
-## Start Building
+## Start Building (เริ่มสร้าง—Build Now!)
 
 <CardGroup cols={2}>
-  <Card title="Build servers" icon="server" href="/docs/develop/build-server">
-    Create MCP servers to expose your data and tools
+  <Card title="Build servers (สร้างเซิร์ฟเวอร์)" icon="server" href="/docs/develop/build-server">
+    สร้างเซิร์ฟเวอร์ MCP สำหรับเปิดเผยข้อมูลและเครื่องมือ
   </Card>
-
-  <Card title="Build clients" icon="computer" href="/docs/develop/build-client">
-    Develop applications that connect to MCP servers
+  <Card title="Build clients (พัฒนาไคลเอนต์)" icon="computer" href="/docs/develop/build-client">
+    พัฒนาแอปพลิเคชันที่เชื่อมต่อกับ MCP servers
   </Card>
 </CardGroup>
 
-## Learn more
+## Learn more (เรียนรู้เพิ่มเติม)
 
 <CardGroup cols={2}>
-  <Card title="Understand concepts" icon="book" href="/docs/learn/architecture">
-    Learn the core concepts and architecture of MCP
+  <Card title="Understand concepts (เข้าใจแนวคิด)" icon="book" href="/docs/learn/architecture">
+    เรียนรู้แนวคิดหลักและโครงสร้าง MCP
   </Card>
 </CardGroup>
 
-<Card title="MCP Documentation" icon="book" href="https://modelcontextprotocol.io">
-  Learn more about the protocol, how to build servers and clients, and discover those made by others.
+<Card title="MCP Documentation (เอกสาร MCP)" icon="book" href="https://modelcontextprotocol.io">
+  ศึกษารายละเอียดโปรโตคอล วิธีสร้างเซิร์ฟเวอร์/ไคลเอนต์ และดูตัวอย่างการใช้งาน
 </Card>
 
-## MCP in Anthropic products
+## MCP in Anthropic products (MCP กับผลิตภัณฑ์ของ Anthropic)
 
 <CardGroup>
   <Card title="MCP in the Messages API" icon="cloud" href="/en/docs/agents-and-tools/mcp-connector">
-    Use the MCP connector in the Messages API to connect to MCP servers.
+    ใช้งาน MCP Connector บน Messages API เพื่อเชื่อมต่อ MCP servers
   </Card>
-
   <Card title="MCP in Claude Code" icon="head-side-gear" href="/en/docs/claude-code/mcp">
-    Add your MCP servers to Claude Code, or use Claude Code as a server.
+    เพิ่ม MCP server สำหรับ Claude Code หรือใช้ Claude Code เป็น server
   </Card>
-
   <Card title="MCP in Claude.ai" icon="comments" href="https://support.claude.com/en/articles/11175166-getting-started-with-custom-connectors-using-remote-mcp">
-    Enable MCP connectors for your team in Claude.ai.
+    เปิดใช้งาน MCP connectors ให้ทีมของคุณบน Claude.ai
   </Card>
-
   <Card title="MCP in Claude Desktop" icon="desktop" href="https://support.claude.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop">
-    Add MCP servers to Claude Desktop.
+    เพิ่ม MCP server สำหรับ Claude Desktop
   </Card>
 </CardGroup>
 
@@ -130,35 +135,36 @@ Depending on where you sit in the ecosystem, MCP can have a range of benefits.
 
 ## 🚀 Production-Ready Examples / ตัวอย่างที่พร้อมใช้งานจริง
 
-### React MCP Server Example
+### React MCP Server Example (ตัวอย่างเซิร์ฟเวอร์ MCP สำหรับ React)
 
-🎯 **ตัวอย่าง MCP Server พร้อม React Client ที่สามารถใช้งานได้จริง**
+🎯 **ตัวอย่าง MCP Server พร้อม React Client ที่สามารถใช้งานได้จริง**  
+A complete example showing how to build an MCP server using Node.js and React client—with production-ready features.
 
-ตัวอย่างที่สมบูรณ์แบบสำหรับการสร้าง MCP Server ด้วย Node.js และ React Client พร้อมคุณสมบัติ:
+ตัวอย่างนี้เหมาะสำหรับการสร้าง MCP Server ด้วย Node.js และ React Client ที่มีฟีเจอร์พร้อมใช้งานจริง:
 
-- ✅ **Task Management** - ระบบจัดการงานพร้อมระดับความสำคัญ
-- ✅ **Note-taking** - ระบบบันทึกโน้ตพร้อมแท็กและการค้นหา
-- ✅ **Weather Info** - ข้อมูลสภาพอากาศ (จำลอง)
-- ✅ **Full Documentation** - เอกสารครบถ้วนภาษาไทยและอังกฤษ
-- ✅ **Production-Ready** - พร้อมใช้งานจริง
+- ✅ **Task Management** - ระบบจัดการงานพร้อมระดับความสำคัญ (Task Management with priorities)
+- ✅ **Note-taking** - ระบบจดโน้ต พร้อมแท็ก & ค้นหา (Note system with search/tags)
+- ✅ **Weather Info** - ดูข้อมูลสภาพอากาศ (จำลอง)
+- ✅ **Full Documentation** - คู่มือภาษาไทย/อังกฤษครบถ้วน
+- ✅ **Production-Ready** - พร้อมใช้งานในระบบจริง
 
 **📂 ตำแหน่ง / Location:** [`react-mcp-example/`](react-mcp-example/)
 
-**📖 Quick Start:**
+**📖 Quick Start (เริ่มต้นอย่างรวดเร็ว):**
 ```bash
-# Clone and setup
+# Clone and setup (โคลนโปรเจกต์และตั้งค่า)
 cd react-mcp-example
 
-# Install server dependencies
+# Install server dependencies (ติดตั้ง dependencies ฝั่ง server)
 cd server && npm install
 
-# Install client dependencies  
+# Install client dependencies (ติดตั้ง dependencies ฝั่ง client)
 cd ../client && npm install
 
-# Start server
+# Start server (เริ่ม server)
 cd ../server && npm start
 
-# Start client (in new terminal)
+# Start client (เริ่ม client - เปิด terminal ใหม่)
 cd ../client && npm run dev
 ```
 
