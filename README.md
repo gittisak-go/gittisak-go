@@ -13,6 +13,8 @@
 
 ## Gittisak Go - MCP Server Thailand 100% (เซิร์ฟเวอร์ MCP เปิดซอร์สพร้อมใช้ สำหรับประเทศไทย)
 
+[![Watch the video](https://img.youtube.com/vi/kOhLoixrJXo/maxresdefault.jpg)](https://www.youtube.com/watch?v=kOhLoixrJXo)
+
 **🚀 A production-ready Model Context Protocol server written in Go**  
 **🚀 เซิร์ฟเวอร์ Model Context Protocol (MCP) ที่พร้อมใช้งานจริง พัฒนาด้วยภาษา Go**
 
