@@ -302,10 +302,13 @@ Check your MCP client configuration file for existing settings:
 - Check VSCode settings (JSON) for `mcp.servers` section
 
 ```bash
-# On macOS/Linux, view your Claude Desktop config:
-cat ~/Library/Application\ Support/Claude/claude_desktop_config.json 2>/dev/null || \
-cat ~/.config/Claude/claude_desktop_config.json 2>/dev/null || \
-echo "Config file not found - Claude Desktop may not be installed or configured"
+# On macOS, view your Claude Desktop config:
+cat ~/Library/Application\ Support/Claude/claude_desktop_config.json
+
+# On Linux, view your Claude Desktop config:
+cat ~/.config/Claude/claude_desktop_config.json
+
+# If the file doesn't exist, Claude Desktop may not be installed or configured
 ```
 
 #### Step 3: Rebuild and Test / สร้างใหม่และทดสอบ

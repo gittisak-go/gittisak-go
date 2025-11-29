@@ -7,14 +7,62 @@
 
 set -e
 
+# Get script directory
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$SCRIPT_DIR"
+
+# Function to print Claude Desktop config
+print_claude_config() {
+    cat <<EOF
+{
+  "mcpServers": {
+    "gittisak-go": {
+      "command": "$SCRIPT_DIR/bin/mcp-server",
+      "args": [],
+      "env": {}
+    }
+  }
+}
+EOF
+}
+
+# Function to print VSCode config
+print_vscode_config() {
+    cat <<EOF
+{
+  "mcp": {
+    "servers": {
+      "gittisak-go": {
+        "command": "$SCRIPT_DIR/bin/mcp-server",
+        "args": [],
+        "env": {}
+      }
+    }
+  }
+}
+EOF
+}
+
+# Function to find Claude Desktop config
+find_claude_config() {
+    local config_paths=(
+        "$HOME/Library/Application Support/Claude/claude_desktop_config.json"
+        "$HOME/.config/Claude/claude_desktop_config.json"
+    )
+    
+    for path in "${config_paths[@]}"; do
+        if [ -f "$path" ]; then
+            echo "$path"
+            return 0
+        fi
+    done
+    return 1
+}
+
 echo "=================================================="
 echo "MCP Setup Verification / ตรวจสอบการตั้งค่า MCP"
 echo "=================================================="
 echo ""
-
-# Get script directory
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-cd "$SCRIPT_DIR"
 
 echo "📁 Project Location / ตำแหน่งโครงการ:"
 echo "   $SCRIPT_DIR"
@@ -59,7 +107,10 @@ echo ""
 
 # Test the server
 echo "🧪 Testing MCP server / ทดสอบเซิร์ฟเวอร์ MCP..."
-RESPONSE=$(echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"verify","version":"1.0"}}}' | timeout 2s ./bin/mcp-server 2>/dev/null | head -1)
+# Create test request payload (must be single line for JSON-RPC)
+TEST_REQUEST='{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"verify","version":"1.0"}}}'
+
+RESPONSE=$(echo "$TEST_REQUEST" | timeout 2s ./bin/mcp-server 2>/dev/null | head -1)
 if echo "$RESPONSE" | grep -q '"protocolVersion"'; then
     echo "   ✓ Server responds correctly"
 else
@@ -70,22 +121,7 @@ echo ""
 
 # Check Claude Desktop config
 echo "🔍 Checking Claude Desktop configuration..."
-CONFIG_FOUND=false
-CONFIG_PATH=""
-
-# macOS
-if [ -f "$HOME/Library/Application Support/Claude/claude_desktop_config.json" ]; then
-    CONFIG_PATH="$HOME/Library/Application Support/Claude/claude_desktop_config.json"
-    CONFIG_FOUND=true
-fi
-
-# Linux
-if [ -f "$HOME/.config/Claude/claude_desktop_config.json" ]; then
-    CONFIG_PATH="$HOME/.config/Claude/claude_desktop_config.json"
-    CONFIG_FOUND=true
-fi
-
-if [ "$CONFIG_FOUND" = true ]; then
+if CONFIG_PATH=$(find_claude_config); then
     echo "   ✓ Config found at: $CONFIG_PATH"
     
     # Check if our server is configured
@@ -95,15 +131,7 @@ if [ "$CONFIG_FOUND" = true ]; then
         echo "   ⚠ gittisak-go server NOT found in config"
         echo ""
         echo "   Add this to your config:"
-        echo '   {'
-        echo '     "mcpServers": {'
-        echo '       "gittisak-go": {'
-        echo "         \"command\": \"$SCRIPT_DIR/bin/mcp-server\","
-        echo '         "args": [],'
-        echo '         "env": {}'
-        echo '       }'
-        echo '     }'
-        echo '   }'
+        print_claude_config | sed 's/^/   /'
     fi
 else
     echo "   ⚠ Claude Desktop config not found"
@@ -125,28 +153,10 @@ echo ""
 echo "📋 Add this configuration to your MCP client:"
 echo ""
 echo "For Claude Desktop (claude_desktop_config.json):"
-echo '{'
-echo '  "mcpServers": {'
-echo '    "gittisak-go": {'
-echo "      \"command\": \"$SCRIPT_DIR/bin/mcp-server\","
-echo '      "args": [],'
-echo '      "env": {}'
-echo '    }'
-echo '  }'
-echo '}'
+print_claude_config
 echo ""
 echo "For VSCode (settings.json):"
-echo '{'
-echo '  "mcp": {'
-echo '    "servers": {'
-echo '      "gittisak-go": {'
-echo "        \"command\": \"$SCRIPT_DIR/bin/mcp-server\","
-echo '        "args": [],'
-echo '        "env": {}'
-echo '      }'
-echo '    }'
-echo '  }'
-echo '}'
+print_vscode_config
 echo ""
 echo "=================================================="
 echo "Need help? / ต้องการความช่วยเหลือ?"
