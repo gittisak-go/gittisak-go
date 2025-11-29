@@ -7,9 +7,12 @@
   <script>
     (function() {
       // If requested path is not root/index, redirect to root and preserve original path in hash
-      if (location.pathname === '/' || location.pathname.endsWith('index.html')) return;
-      var path = location.pathname + location.search + location.hash;
-      location.replace('/#' + encodeURIComponent(path));
+      const loc = location;
+      const pathname = loc.pathname;
+      if (pathname === '/' || pathname.endsWith('index.html')) return;
+      // Use template literal for efficient string concatenation
+      const path = `${pathname}${loc.search}${loc.hash}`;
+      loc.replace(`/#${encodeURIComponent(path)}`);
     })();
   </script>
 </head>

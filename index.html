@@ -30,18 +30,26 @@
             history.replaceState(null, null, h);
           }
         }
-      } catch(e){}
+      } catch(e){
+        console.warn('Failed to restore path from hash:', e);
+      }
     })();
 
+    // Cache DOM reference to avoid repeated queries
+    const viewElement = document.getElementById('view');
+    
+    // Create reusable 404 handler to avoid recreating it
+    const notFoundHandler = () => viewElement.innerHTML = '<p>ไม่พบหน้า</p>';
+
     const routes = {
-      '/': () => document.getElementById('view').innerHTML = '<p>หน้าแรก</p>',
-      '/about': () => document.getElementById('view').innerHTML = '<p>เกี่ยวกับเรา</p>',
-      '/contact': () => document.getElementById('view').innerHTML = '<p>ติดต่อเรา</p>'
+      '/': () => viewElement.innerHTML = '<p>หน้าแรก</p>',
+      '/about': () => viewElement.innerHTML = '<p>เกี่ยวกับเรา</p>',
+      '/contact': () => viewElement.innerHTML = '<p>ติดต่อเรา</p>'
     };
 
     function router() {
       const path = window.location.pathname;
-      (routes[path] || (() => document.getElementById('view').innerHTML = '<p>ไม่พบหน้า</p>'))();
+      (routes[path] || notFoundHandler)();
     }
 
     function navigateTo(url) {
@@ -51,11 +59,16 @@
 
     window.addEventListener('popstate', router);
 
+    // Optimize event delegation: check for data-link before processing
     document.addEventListener('click', e => {
+      // Early exit if not clicking on or inside a link
+      if (!e.target.closest) return;
       const a = e.target.closest('a[data-link]');
       if (a) {
         e.preventDefault();
-        navigateTo(new URL(a.href).pathname);
+        // Use getAttribute to avoid URL object creation overhead
+        const href = a.getAttribute('href');
+        navigateTo(href);
       }
     });
 
