@@ -15,6 +15,7 @@
     <a href="/" data-link>Home</a>
     <a href="/about" data-link>About</a>
     <a href="/contact" data-link>Contact</a>
+    <a href="/devices" data-link>ตั้งค่าอุปกรณ์</a>
   </nav>
 
   <main id="view" style="margin-top:1rem"></main>
@@ -36,8 +37,98 @@
     const routes = {
       '/': () => document.getElementById('view').innerHTML = '<p>หน้าแรก</p>',
       '/about': () => document.getElementById('view').innerHTML = '<p>เกี่ยวกับเรา</p>',
-      '/contact': () => document.getElementById('view').innerHTML = '<p>ติดต่อเรา</p>'
+      '/contact': () => document.getElementById('view').innerHTML = '<p>ติดต่อเรา</p>',
+      '/devices': () => {
+        document.getElementById('view').innerHTML = `
+          <h2>ตั้งค่าอุปกรณ์</h2>
+          <p>กำหนดค่าการเชื่อมต่อกับอุปกรณ์ของคุณ</p>
+          <form id="deviceForm" style="max-width:500px">
+            <div style="margin-bottom:1rem">
+              <label for="deviceName" style="display:block;margin-bottom:0.5rem">ชื่ออุปกรณ์:</label>
+              <input type="text" id="deviceName" name="deviceName" required style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:4px" />
+            </div>
+            <div style="margin-bottom:1rem">
+              <label for="deviceType" style="display:block;margin-bottom:0.5rem">ประเภทอุปกรณ์:</label>
+              <select id="deviceType" name="deviceType" required style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:4px">
+                <option value="">เลือกประเภท</option>
+                <option value="mcp-server">MCP Server</option>
+                <option value="api-endpoint">API Endpoint</option>
+                <option value="database">Database</option>
+                <option value="iot-device">IoT Device</option>
+              </select>
+            </div>
+            <div style="margin-bottom:1rem">
+              <label for="connectionUrl" style="display:block;margin-bottom:0.5rem">URL การเชื่อมต่อ:</label>
+              <input type="url" id="connectionUrl" name="connectionUrl" required placeholder="https://example.com" style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:4px" />
+            </div>
+            <div style="margin-bottom:1rem">
+              <label for="apiKey" style="display:block;margin-bottom:0.5rem">API Key (ถ้ามี):</label>
+              <input type="password" id="apiKey" name="apiKey" placeholder="กรอก API Key" style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:4px" />
+            </div>
+            <button type="submit" style="background:#007bff;color:white;padding:0.75rem 1.5rem;border:none;border-radius:4px;cursor:pointer">บันทึกการตั้งค่า</button>
+          </form>
+          <div id="deviceList" style="margin-top:2rem">
+            <h3>อุปกรณ์ที่เชื่อมต่อ</h3>
+            <ul id="devices" style="list-style:none;padding:0"></ul>
+          </div>
+        `;
+        
+        // Handle form submission
+        document.getElementById('deviceForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          const formData = new FormData(e.target);
+          const device = {
+            name: formData.get('deviceName'),
+            type: formData.get('deviceType'),
+            url: formData.get('connectionUrl'),
+            apiKey: formData.get('apiKey') ? '***' : null,
+            id: Date.now()
+          };
+          
+          // Store in localStorage
+          const devices = JSON.parse(localStorage.getItem('devices') || '[]');
+          devices.push(device);
+          localStorage.setItem('devices', JSON.stringify(devices));
+          
+          // Reset form and update list
+          e.target.reset();
+          updateDeviceList();
+          alert('บันทึกการตั้งค่าเรียบร้อยแล้ว!');
+        });
+        
+        // Load and display saved devices
+        updateDeviceList();
+      }
     };
+
+    function updateDeviceList() {
+      const devices = JSON.parse(localStorage.getItem('devices') || '[]');
+      const deviceList = document.getElementById('devices');
+      if (deviceList) {
+        if (devices.length === 0) {
+          deviceList.innerHTML = '<li style="color:#666">ยังไม่มีอุปกรณ์ที่เชื่อมต่อ</li>';
+        } else {
+          deviceList.innerHTML = devices.map(d => `
+            <li style="border:1px solid #ddd;padding:1rem;margin-bottom:0.5rem;border-radius:4px">
+              <strong>${d.name}</strong> (${d.type})<br/>
+              <small style="color:#666">URL: ${d.url}</small>
+              ${d.apiKey ? '<br/><small style="color:#666">API Key: กำหนดแล้ว</small>' : ''}
+              <button onclick="removeDevice(${d.id})" style="float:right;background:#dc3545;color:white;border:none;padding:0.25rem 0.5rem;border-radius:4px;cursor:pointer">ลบ</button>
+            </li>
+          `).join('');
+        }
+      }
+    }
+
+    function removeDevice(id) {
+      const devices = JSON.parse(localStorage.getItem('devices') || '[]');
+      const filtered = devices.filter(d => d.id !== id);
+      localStorage.setItem('devices', JSON.stringify(filtered));
+      updateDeviceList();
+    }
+
+    // Make removeDevice available globally
+    window.removeDevice = removeDevice;
 
     function router() {
       const path = window.location.pathname;
