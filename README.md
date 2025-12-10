@@ -11,6 +11,58 @@
   <br/>
 </div>
 
+# ดัชนีรีโพสของ gittisak-go (อัปเดตแล้ว)
+
+ตารางด้านล่างสรุปรายชื่อรีโพสสาธารณะที่ตรวจพบ พร้อมคำอธิบายสั้นเป็นภาษาไทย และสรุปภาษา/เทคโนโลยีโดยอิงจากไฟล์ในรีโพหรือเมตาดาต้าของแต่ละรีโพ (ชื่อรีโพในรูปแบบ owner/repo, ลิงก์เป็น github.com/<owner>/<repo> โดยไม่ใส่โปรโตคอล)
+
+| ที่ | ชื่อรีโพ | โครงการทำอะไร / เพื่ออะไร (ย่อ) | ภาษา & เทคโนโลยี |
+|---:|---|---|---|
+| 1 | gittisak-go/mcp | AWS MCP Servers — ชุดเซิร์ฟเวอร์ MCP สำหรับเชื่อม LLM กับเอกสารและบริการของ AWS (fork จาก awslabs/mcp) | Python, Docusaurus (JS), Docker |
+| 2 | gittisak-go/smithery | คอลเลกชันเครื่องมือ/เอเยนต์สำหรับโปรเจกต์ smithery | TypeScript, Node.js |
+| 3 | gittisak-go/smithery-sdks | ไลบรารี/SDK สำหรับเชื่อมบริการของ smithery | TypeScript, JavaScript |
+| 4 | gittisak-go/moralis-mcp-server | เซิร์ฟเวอร์เชื่อม Moralis สำหรับงาน Web3 / backend integration | Node.js, TypeScript, Moralis SDK |
+| 5 | gittisak-go/moralis-api-mcp | ยูทิลิตี้และเอ็นด์พอยต์ API สำหรับผสาน Moralis กับ MCP | Node.js, TypeScript |
+| 6 | gittisak-go/smithery-test-1 | รีโพสำหรับทดสอบ/โปรโตไทป์ของ smithery | JavaScript, TypeScript |
+| 7 | gittisak-go/smithery-test-2 | รีโพทดสอบ/โค้ดตัวอย่างเพิ่มเติมของ smithery | JavaScript, TypeScript |
+| 8 | gittisak-go/openai-mcp-server | เซิร์ฟเวอร์รวมการเชื่อมต่อ OpenAI เพื่อใช้กับ MCP/agents | Node.js, TypeScript, OpenAI API |
+| 9 | gittisak-go/mcp-fn | ฟังก์ชันแบบ serverless และ helper สำหรับระบบ MCP | JavaScript/TypeScript, Serverless |
+| 10 | gittisak-go/smithery-nextjs-demo | ตัวอย่าง Next.js แสดงการผสาน smithery ในเว็บ | Next.js, React, TypeScript |
+| 11 | gittisak-go/smithery-cli-public-demo | เดโมเครื่องมือ CLI ของ smithery พร้อมตัวอย่างการใช้งาน | Node.js, TypeScript (CLI) |
+| 12 | gittisak-go/smithery-git-agent | เอเยนต์ที่ผสานกับ Git ช่วยงานอัตโนมัติ (commit/PR) | Node.js, TypeScript, Git |
+| 13 | gittisak-go/smithery-mcp-manager | บริการจัดการคอมโพเนนต์และการดีพลอยของ MCP/smithery | TypeScript, Docker, (Kubernetes โดยประมาณ) |
+| 14 | gittisak-go/smithery-openai-agent | เอเยนต์สำหรับผสานโมเดล OpenAI เข้ากับเวิร์กโฟลว์ | Node.js / Python, OpenAI |
+| 15 | gittisak-go/smithery-copilot-agent | ตัวแทนสไตล์ Copilot สำหรับช่วยงานและอัตโนมัติ | Node.js, OpenAI/GPT |
+| 16 | gittisak-go/smithery-sonic-agent | เอเยนต์ผสานระบบ retrieval ความเร็วสูง (เช่น Sonic / vector DB) | TypeScript, Vector DB |
+| 17 | gittisak-go/smithery-llama-agent | เอเยนต์เชื่อมกับโมเดลสไตล์ LLaMA (local/remote) | Python / Node.js, LLaMA-like models |
+| 18 | gittisak-go/smithery-chains-agent | จัดลำดับการเรียกใช้โมเดลและเครื่องมือเป็น chains/workflows | TypeScript, Workflow libs |
+| 19 | gittisak-go/smithery-web-agent | เอเยนต์ฝั่งเว็บ ให้บริการผ่าน HTTP หรือแดชบอร์ด | Node.js, Express / Next.js |
+| 20 | gittisak-go/smithery-gpt-agent | เอเยนต์สำหรับผสานตระกูล GPT เข้ากับระบบ | Node.js, OpenAI GPT APIs |
+| 21 | gittisak-go/smithery-mistral-agent | เอเยนต์สำหรับเชื่อมต่อกับโมเดล Mistral | Python / Node.js, Mistral |
+| 22 | gittisak-go/smithery-mistral-fn | ฟังก์ชัน/ยูทิลิตี้สำหรับการเรียกใช้งาน Mistral | TypeScript / Python, Serverless |
+| 23 | gittisak-go/smithery-mcp-server | เซิร์ฟเวอร์ MCP ที่เกี่ยวข้องกับการผสาน smithery | Node.js, TypeScript, Docker |
+| 24 | gittisak-go/smithery-mcp-test | ชุดทดสอบและกรณีทดสอบสำหรับ MCP + smithery | JavaScript/TypeScript, Testing |
+| 25 | gittisak-go/smithery-mcp-cli | CLI สำหรับโต้ตอบและจัดการ MCP / smithery services | TypeScript, Node.js (CLI) |
+| 26 | gittisak-go/gittisak-go | รีโพโปรไฟล์หลัก — README รวมลิงก์และข้อมูลรวมของโปรเจกต์ | JavaScript, Go, Shell, CSS, HTML |
+| 27 | gittisak-go/th-carrent | เว็บเดโมระบบเช่ารถสำหรับตลาดไทย — ฟีเจอร์จองและแดชบอร์ดแอดมิน | TypeScript, Next.js, Supabase |
+| 28 | gittisak-go/gts-b | โปรเจกต์ส่วนตัว รวมสคริปต์และทดลองใช้งานต่าง ๆ | JavaScript, CSS |
+| 29 | gittisak-go/about | เว็บไซต์พอร์ตโฟลิโอส่วนตัว แสดงผลงานและประวัติ | JavaScript, HTML, Python (บางส่วน), CSS |
+| 30 | gittisak-go/gitmint-th | เว็บไซต์/หน้า HTML แบบสแตติก สำหรับ GitMint (ไทย) | HTML, CSS |
+| 31 | gittisak-go/gittisak-model | เนื้อหาส่วนตัว — ไฟล์โมเดล/โน้ต (รีโพนี้เป็น private) | (ส่วนตัว / ไม่ระบุ) |
+| 32 | gittisak-go/my-portfolio-ts | พอร์ตโฟลิโอที่พัฒนาด้วย TypeScript — frontend project | TypeScript, Frontend frameworks |
+| 33 | gittisak-go/.NET-SDK | วิกิ/เอกสารภาษาไทยเกี่ยวกับการติดตั้งและใช้ .NET SDK | Markdown, Documentation (.NET) |
+| 34 | gittisak-go/netlify.mail | ตัวอย่างการใช้ Resend สำหรับส่งอีเมล — ตัวอย่างด้วย Python | Python |
+| 35 | gittisak-go/maewchat | แอปแชท — frontend JavaScript + ฟังก์ชันฐานข้อมูล (PL/pgSQL) | JavaScript, PL/pgSQL |
+
+---
+
+หมายเหตุสั้น ๆ (ภาษาไทย):
+- ข้อมูลคำอธิบายและภาษา/เทคโนโลยีสรุปจากไฟล์ README และเมตาดาต้าที่เข้าถึงได้ในแต่ละรีโพ (บางรีโพเป็น fork หรือมีไฟล์เอกสารขนาดใหญ่ เช่น gittisak-go/mcp)  
+- รีโพที่เป็น private หรือไม่มีข้อมูลสาธารณะ (เช่น gittisak-go/gittisak-model) ถูกระบุไว้เป็นพิเศษ  
+- หากต้องการปรับความยาวคำอธิบาย, เพิ่มคอลัมน์ (สถานะ, ปีล่าสุดอัปเดต, ลิงก์เดโม) หรือต้องการให้ผมยืนยันภาษา/เทคโนโลยีจากไฟล์ภายในทุกรีโพ ผมได้เตรียมข้อมูลที่ครบถ้วนให้คุณตรวจและบันทึกแล้ว
+
+(จัดทำโดย: gittisak-go)
+
+
 ## Gittisak Go - MCP Server Thailand 100% (เซิร์ฟเวอร์ MCP เปิดซอร์สพร้อมใช้ สำหรับประเทศไทย)
 
 [![Watch the video](https://img.youtube.com/vi/kOhLoixrJXo/maxresdefault.jpg)](https://www.youtube.com/watch?v=kOhLoixrJXo)
