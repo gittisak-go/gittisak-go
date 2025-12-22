@@ -11,11 +11,12 @@ import (
 
 // Server represents an MCP server
 type Server struct {
-	name    string
-	version string
-	tools   map[string]ToolHandler
-	reader  *bufio.Reader
-	writer  io.Writer
+	name         string
+	version      string
+	tools        map[string]ToolHandler
+	toolMetadata map[string]Tool
+	reader       *bufio.Reader
+	writer       io.Writer
 }
 
 // ToolHandler is a function that handles tool execution
@@ -24,17 +25,23 @@ type ToolHandler func(arguments map[string]interface{}) (*CallToolResult, error)
 // NewServer creates a new MCP server
 func NewServer(name, version string) *Server {
 	return &Server{
-		name:    name,
-		version: version,
-		tools:   make(map[string]ToolHandler),
-		reader:  bufio.NewReader(os.Stdin),
-		writer:  os.Stdout,
+		name:         name,
+		version:      version,
+		tools:        make(map[string]ToolHandler),
+		toolMetadata: make(map[string]Tool),
+		reader:       bufio.NewReader(os.Stdin),
+		writer:       os.Stdout,
 	}
 }
 
 // RegisterTool registers a tool handler
 func (s *Server) RegisterTool(name, description string, inputSchema InputSchema, handler ToolHandler) {
 	s.tools[name] = handler
+	s.toolMetadata[name] = Tool{
+		Name:        name,
+		Description: description,
+		InputSchema: inputSchema,
+	}
 }
 
 // Start starts the MCP server and listens for requests
@@ -102,8 +109,9 @@ func (s *Server) handleInitialize(req *Request) {
 func (s *Server) handleListTools(req *Request) {
 	var tools []Tool
 	for name := range s.tools {
-		// Get tool metadata from registered tools
-		tools = append(tools, s.getToolDefinition(name))
+		if metadata, exists := s.toolMetadata[name]; exists {
+			tools = append(tools, metadata)
+		}
 	}
 
 	result := ListToolsResult{
@@ -185,58 +193,4 @@ func (s *Server) sendJSON(v interface{}) {
 	}
 }
 
-// getToolDefinition returns the tool definition for a registered tool
-func (s *Server) getToolDefinition(name string) Tool {
-	// This is a simple implementation. In a real scenario, you'd store
-	// tool metadata when registering tools
-	switch name {
-	case "echo":
-		return Tool{
-			Name:        "echo",
-			Description: "Echoes back the input text",
-			InputSchema: InputSchema{
-				Type: "object",
-				Properties: map[string]interface{}{
-					"message": map[string]interface{}{
-						"type":        "string",
-						"description": "The message to echo back",
-					},
-				},
-				Required: []string{"message"},
-			},
-		}
-	case "get_time":
-		return Tool{
-			Name:        "get_time",
-			Description: "Returns the current server time",
-			InputSchema: InputSchema{
-				Type:       "object",
-				Properties: map[string]interface{}{},
-			},
-		}
-	case "read_file":
-		return Tool{
-			Name:        "read_file",
-			Description: "Reads the content of a file",
-			InputSchema: InputSchema{
-				Type: "object",
-				Properties: map[string]interface{}{
-					"path": map[string]interface{}{
-						"type":        "string",
-						"description": "The path to the file to read",
-					},
-				},
-				Required: []string{"path"},
-			},
-		}
-	default:
-		return Tool{
-			Name:        name,
-			Description: "No description available",
-			InputSchema: InputSchema{
-				Type:       "object",
-				Properties: map[string]interface{}{},
-			},
-		}
-	}
-}
+
