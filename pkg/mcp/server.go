@@ -111,6 +111,9 @@ func (s *Server) handleListTools(req *Request) {
 	for name := range s.tools {
 		if metadata, exists := s.toolMetadata[name]; exists {
 			tools = append(tools, metadata)
+		} else {
+			// Log warning if metadata is missing for a registered tool
+			log.Printf("Warning: Tool '%s' registered but missing metadata\n", name)
 		}
 	}
 

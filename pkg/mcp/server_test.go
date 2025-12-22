@@ -90,8 +90,13 @@ func TestHandleInitialize(t *testing.T) {
 	
 	server.handleInitialize(req)
 	
+	output := outputBuffer.Bytes()
+	if len(output) == 0 {
+		t.Fatal("Expected response, got empty buffer")
+	}
+	
 	var response Response
-	err := json.Unmarshal(outputBuffer.Bytes()[:len(outputBuffer.Bytes())-1], &response)
+	err := json.Unmarshal(output[:len(output)-1], &response)
 	if err != nil {
 		t.Fatalf("Failed to parse response: %v", err)
 	}
@@ -139,8 +144,13 @@ func TestHandleListTools(t *testing.T) {
 	
 	server.handleListTools(req)
 	
+	output := outputBuffer.Bytes()
+	if len(output) == 0 {
+		t.Fatal("Expected response, got empty buffer")
+	}
+	
 	var response Response
-	err := json.Unmarshal(outputBuffer.Bytes()[:len(outputBuffer.Bytes())-1], &response)
+	err := json.Unmarshal(output[:len(output)-1], &response)
 	if err != nil {
 		t.Fatalf("Failed to parse response: %v", err)
 	}
@@ -194,8 +204,13 @@ func TestHandleCallTool(t *testing.T) {
 	
 	server.handleCallTool(req)
 	
+	output := outputBuffer.Bytes()
+	if len(output) == 0 {
+		t.Fatal("Expected response, got empty buffer")
+	}
+	
 	var response Response
-	err := json.Unmarshal(outputBuffer.Bytes()[:len(outputBuffer.Bytes())-1], &response)
+	err := json.Unmarshal(output[:len(output)-1], &response)
 	if err != nil {
 		t.Fatalf("Failed to parse response: %v", err)
 	}
@@ -223,8 +238,13 @@ func TestHandleCallToolNotFound(t *testing.T) {
 	
 	server.handleCallTool(req)
 	
+	output := outputBuffer.Bytes()
+	if len(output) == 0 {
+		t.Fatal("Expected response, got empty buffer")
+	}
+	
 	var response Response
-	err := json.Unmarshal(outputBuffer.Bytes()[:len(outputBuffer.Bytes())-1], &response)
+	err := json.Unmarshal(output[:len(output)-1], &response)
 	if err != nil {
 		t.Fatalf("Failed to parse response: %v", err)
 	}
@@ -247,8 +267,13 @@ func TestSendResponse(t *testing.T) {
 	result := map[string]string{"status": "ok"}
 	server.sendResponse(123, result)
 	
+	output := outputBuffer.Bytes()
+	if len(output) == 0 {
+		t.Fatal("Expected response, got empty buffer")
+	}
+	
 	var response Response
-	err := json.Unmarshal(outputBuffer.Bytes()[:len(outputBuffer.Bytes())-1], &response)
+	err := json.Unmarshal(output[:len(output)-1], &response)
 	if err != nil {
 		t.Fatalf("Failed to parse response: %v", err)
 	}
@@ -270,8 +295,13 @@ func TestSendError(t *testing.T) {
 	
 	server.sendError(456, -32600, "Invalid Request", "Test error data")
 	
+	output := outputBuffer.Bytes()
+	if len(output) == 0 {
+		t.Fatal("Expected response, got empty buffer")
+	}
+	
 	var response Response
-	err := json.Unmarshal(outputBuffer.Bytes()[:len(outputBuffer.Bytes())-1], &response)
+	err := json.Unmarshal(output[:len(output)-1], &response)
 	if err != nil {
 		t.Fatalf("Failed to parse response: %v", err)
 	}
