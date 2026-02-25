@@ -1,7 +1,7 @@
 <div align="center">
   <p>
     <a align="center" href="#"_blank">
-      <img src="https://res.cloudinary.com/dcwjok3nu/image/upload/v1764411147/Backend-sparesos_gd5myv.jpg" alt="gittisak-go" height=100%/>
+      <img src="https://res.cloudinary.com/dkjc60wn4/image/upload/v1772013932/gittisak-gocover.png" alt="gittisak-go" height=100%/> 
     </a>
     <h1 align="center">GtsAlpha Model Context Protocol (MCP)</h1>
     <h3 align="center">(โปรโตคอลบริบทโมเดล—Model Context Protocol: MCP)</h3>
